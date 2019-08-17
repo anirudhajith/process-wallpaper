@@ -1,0 +1,1 @@
+treeFile = open("tree", "r")
