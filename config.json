@@ -5,7 +5,7 @@
     },
     "wordcloud": {
         "background": "#101010",
-        "margin": 0.05
+        "margin": 20
     },
     "update-interval": 30
 }

@@ -21,7 +21,8 @@ with open("top.out", "r") as topFile:
         cpu = float(fields[8])
         mem = float(fields[9])
 
-        commandList.append((command, cpu, mem))
+        if command != "top":
+            commandList.append((command, cpu, mem))
     
 
 commandDict = {}
@@ -42,8 +43,8 @@ configJSON = json.loads(open("config.json", "r").read())
 
 wc = WordCloud(
     background_color = configJSON["wordcloud"]["background"],
-    width = int(configJSON["resolution"]["width"] * (1 - configJSON["wordcloud"]["margin"])),
-    height = int(configJSON["resolution"]["height"] * (1 - configJSON["wordcloud"]["margin"]))
+    width = int(configJSON["resolution"]["width"] - 2 * configJSON["wordcloud"]["margin"]),
+    height = int(configJSON["resolution"]["height"] - 2 * configJSON["wordcloud"]["margin"])
 ).generate_from_frequencies(resourceDict)
 
 wc.to_file('wc.png')
@@ -53,8 +54,8 @@ wallpaper = Image.new('RGB', (configJSON["resolution"]["width"], configJSON["res
 wallpaper.paste(
     wordcloud, 
     (
-        int(configJSON["resolution"]["width"] * configJSON["wordcloud"]["margin"] / 2), 
-        int(configJSON["resolution"]["height"] * configJSON["wordcloud"]["margin"] / 2)
+        configJSON["wordcloud"]["margin"],
+        configJSON["wordcloud"]["margin"]
     )    
 )
 wallpaper.save("wallpaper.png")
