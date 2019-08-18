@@ -1,1 +1,0 @@
-pstree -c > tree

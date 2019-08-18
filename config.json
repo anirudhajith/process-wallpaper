@@ -1,0 +1,11 @@
+{   
+    "resolution": {
+        "height": 1080,
+        "width": 1920
+    },
+    "wordcloud": {
+        "background": "#101010",
+        "margin": 0.05
+    },
+    "update-interval": 30
+}
