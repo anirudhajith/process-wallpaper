@@ -2,7 +2,7 @@
 
 Python and shell scripts which sets the wallpaper to a wordcloud of the most resource-intensive processes currently running.
 
-![](https://raw.githubusercontent.com/anirudhajith/process-wallpaper/master/wallpaper.png)
+![](https://raw.githubusercontent.com/anirudhajith/process-wallpaper/master/screenshot.png)
 
 ## Depenendencies
 * `python3`
