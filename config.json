@@ -6,6 +6,5 @@
     "wordcloud": {
         "background": "#101010",
         "margin": 20
-    },
-    "update-interval": 30
+    }
 }

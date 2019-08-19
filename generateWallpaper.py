@@ -1,7 +1,6 @@
 import re
 from PIL import Image
 from wordcloud import WordCloud
-import numpy as np
 import json
 
 commandList = []
