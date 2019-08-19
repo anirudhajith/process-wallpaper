@@ -16,9 +16,9 @@ with open("top.out", "r") as topFile:
             command = fields[11].split("/")[0]
         else:
             command = fields[11]
-        
-        cpu = float(fields[8])
-        mem = float(fields[9])
+
+        cpu = float(fields[8].replace(",", "."))
+        mem = float(fields[9].replace(",", "."))
 
         if command != "top":
             commandList.append((command, cpu, mem))
