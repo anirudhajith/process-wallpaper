@@ -3,6 +3,7 @@
 echo "Installing Python dependencies..."
 pip3 install --user Pillow
 pip3 install --user wordcloud
+pip3 install --user matplotlib
 
 WALLPAPER_PATH="file://$(pwd)/wallpaper.png"
 chmod +x updateWallpaper.sh
