@@ -1,7 +1,13 @@
 import re
+from os import path
+import numpy as np
 from PIL import Image
 from wordcloud import WordCloud
+import os
 import json
+
+d = path.dirname(__file__) if "__file__" in locals() else os.getcwd()
+mask = np.array(Image.open(path.join(d, "pacman2.png")))
 
 commandList = []
 
@@ -24,8 +30,7 @@ with open("top.out", "r") as topFile:
             if command != "top":
                 commandList.append((command, cpu, mem))
         except:
-            pass
-        
+            pass       
 
 commandDict = {}
 
@@ -46,10 +51,11 @@ configJSON = json.loads(open("config.json", "r").read())
 wc = WordCloud(
     background_color = configJSON["wordcloud"]["background"],
     width = int(configJSON["resolution"]["width"] - 2 * configJSON["wordcloud"]["margin"]),
-    height = int(configJSON["resolution"]["height"] - 2 * configJSON["wordcloud"]["margin"])
+    height = int(configJSON["resolution"]["height"] - 2 * configJSON["wordcloud"]["margin"]),
+    mask = mask
 ).generate_from_frequencies(resourceDict)
 
-wc.to_file('wc.png')
+wc.recolor(colormap="summer").to_file('wc.png')
 
 wordcloud = Image.open("wc.png")
 wallpaper = Image.new('RGB', (configJSON["resolution"]["width"], configJSON["resolution"]["height"]), configJSON["wordcloud"]["background"])
@@ -60,4 +66,4 @@ wallpaper.paste(
         configJSON["wordcloud"]["margin"]
     )    
 )
-wallpaper.save("wallpaper.png")
+wallpaper.save("wallpaper_new.png")

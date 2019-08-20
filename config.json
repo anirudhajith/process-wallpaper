@@ -1,10 +1,10 @@
 {   
     "resolution": {
-        "height": 1080,
-        "width": 1920
+        "height": 1050,
+        "width": 1680
     },
     "wordcloud": {
-        "background": "#101010",
+        "background": "#133337",
         "margin": 20
     }
 }
