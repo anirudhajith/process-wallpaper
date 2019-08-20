@@ -12,17 +12,20 @@ with open("top.out", "r") as topFile:
         line = re.sub(r'\s+', ' ', line).strip()
         fields = line.split(" ")
         
-        if fields[11].count("/") > 0:
-            command = fields[11].split("/")[0]
-        else:
-            command = fields[11]
+        try:
+            if fields[11].count("/") > 0:
+                command = fields[11].split("/")[0]
+            else:
+                command = fields[11]
 
-        cpu = float(fields[8].replace(",", "."))
-        mem = float(fields[9].replace(",", "."))
+            cpu = float(fields[8].replace(",", "."))
+            mem = float(fields[9].replace(",", "."))
 
-        if command != "top":
-            commandList.append((command, cpu, mem))
-    
+            if command != "top":
+                commandList.append((command, cpu, mem))
+        except:
+            pass
+        
 
 commandDict = {}
 
