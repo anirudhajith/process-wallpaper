@@ -14,7 +14,7 @@ with open("top.out", "r") as topFile:
         
         try:
             if fields[11].count("/") > 0:
-                command = fields[11].split("/")[0]
+                command = fields[11].split("/")[-1]
             else:
                 command = fields[11]
 
