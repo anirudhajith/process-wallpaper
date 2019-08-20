@@ -2,4 +2,4 @@
 
 export DISPLAY=:1
 top -b -n 1 > top.out
-python3 generateWallpaper.py
+nice python3 generateWallpaper.py
