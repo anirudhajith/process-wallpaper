@@ -2,8 +2,10 @@ import re
 from PIL import Image
 from wordcloud import WordCloud
 import json
+import locale
 
 commandList = []
+locale.setlocale(locale.LC_NUMERIC, '')
 
 with open("top.out", "r") as topFile:
     topOutput = topFile.read().split("\n")[7:]
@@ -17,8 +19,18 @@ with open("top.out", "r") as topFile:
         else:
             command = fields[11]
         
-        cpu = float(fields[8])
-        mem = float(fields[9])
+        cpu = 0
+        mem = 0
+        
+        try:
+            cpu = float(locale.atof(fields[8]))
+        except ValueError:
+            print("CPU usage parse error, tried values: " + fields[8])
+
+        try:
+            mem = float(locale.atof(fields[9]))
+        except ValueError:
+            print("Memory usage parse error, tried values: " + fields[9])
 
         if command != "top":
             commandList.append((command, cpu, mem))
