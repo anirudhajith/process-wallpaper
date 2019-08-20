@@ -20,6 +20,6 @@ chmod +x setup.sh
 ## Use
 The wallpaper is updated every time `updateWallpaper.sh` is run. To trigger the update every minute, append the following line to `crontab -e`:
 ```
-* * * * * cd /path/to/script/directory && ./updateWallpaper.sh > /tmp/wallpaper.log 2>&1
+* * * * * /path/to/script/directory/updateWallpaper.sh
 
 ```
