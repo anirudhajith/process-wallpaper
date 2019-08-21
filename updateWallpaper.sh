@@ -13,4 +13,8 @@ top -b -n 1 -i -w 512 > $APP_DIR/top.out
 cd $APP_DIR
 
 python3 $APP_DIR/generateWallpaper.py
+
+# Using the same picture twice so KDE Plasma actually changes the wallpaper in 
+# slideshow mode, since apparently Plasma doesn't recognize the changes in 
+# standard mode
 cp wallpaper_new.png wallpaper.png

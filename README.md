@@ -17,9 +17,16 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
+### Using a mask image for wordcloud
+To create a masked wordcloud like:
+
+![](https://github.com/zaphbbrox/process-wallpaper/raw/kde_devel/wc.png)
+
+You'll have to put an image inside the app directory and edit the mask value in `config.json` to the name of that file. 
+
 ## Use
 The wallpaper is updated every time `updateWallpaper.sh` is run. To trigger the update every minute, append the following line to `crontab -e`:
 ```
-* * * * * cd /path/to/script/directory && ./updateWallpaper.sh > /tmp/wallpaper.log 2>&1
+* * * * * /path/to/script/directory/updateWallpaper.sh
 
 ```
