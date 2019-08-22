@@ -5,6 +5,7 @@ echo "Installing Python dependencies..."
 pillow="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("PIL") else 0)')"
 wordcloud="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("wordcloud") else 0)')"
 matplotlib="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("matplotlib") else 0)')"
+psutil="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("psutil") else 0)')"
 
 if [ $pillow == 0 ]; then
 echo "Installing Pillow..."
@@ -17,6 +18,10 @@ fi
 if [ $matplotlib == 0 ]; then
 echo "Installing matplotlib..."
 pip3 install --user matplotlib
+fi
+if [ $psutil == 0 ]; then
+echo "Installing psutil..."
+pip3 install --user psutil
 fi
 
 echo "Creating wallpaper..."

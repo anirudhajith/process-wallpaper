@@ -1,52 +1,35 @@
+#!/usr/bin/env python
 import re
-from PIL import Image
-from wordcloud import WordCloud
+import psutil
 import json
 import os
+from sys import platform
+from PIL import Image
+from wordcloud import WordCloud
 
-commandList = []
+resourceDict = dict()
 
-with open("top.out", "r") as topFile:
-    topOutput = topFile.read().split("\n")[7:]
-    
-    for line in topOutput[:-1]:
-        line = re.sub(r'\s+', ' ', line).strip()
-        fields = line.split(" ")
-        
-        try:
-            if fields[11].count("/") > 0:
-                command = fields[11].split("/")[0]
-            else:
-                command = fields[11]
-
-            cpu = float(fields[8].replace(",", "."))
-            mem = float(fields[9].replace(",", "."))
-
-            if command != "top":
-                commandList.append((command, cpu, mem))
-        except:
-            pass
-        
-
-commandDict = {}
-
-for command, cpu, mem in commandList:
-    if command in commandDict:
-        commandDict[command][0] += cpu
-        commandDict[command][1] += mem
-    else:
-        commandDict[command] = [cpu + 1, mem + 1]
-
-resourceDict = {}
-
-for command, [cpu, mem] in commandDict.items():
-    resourceDict[command] = (cpu ** 2 + mem ** 2) ** 0.5
+for proc in psutil.process_iter(attrs=['name', 'cpu_percent', 'memory_percent']):
+    try:
+        relevancy = (proc.cpu_percent() ** 2 + proc.memory_percent() ** 2) ** 0.5
+        resourceDict[proc.name()] = relevancy
+    except:
+        pass
 
 width, height = None, None
-try:
-    width,height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
-except:
-    pass
+
+if platform == "linux" or platform == "linux2":
+    try:
+        width,height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
+    except:
+        pass
+elif platform == "darwin":
+    try:
+        results = str(subprocess.Popen(['system_profiler SPDisplaysDataType'],stdout=subprocess.PIPE, shell=True).communicate()[0])
+        res = re.search('Resolution: \d* x \d*', results).group(0).split(' ')
+        width, height = res[1], res[3]
+    except:
+        pass
 
 configJSON = json.loads(open("config.json", "r").read())
 
@@ -56,21 +39,21 @@ if height and width:
     with open('config.json', 'w') as f:
         json.dump(configJSON, f, indent=4)
 
-wc = WordCloud(
+cloud = WordCloud(
     background_color = configJSON["wordcloud"]["background"],
     width = int(configJSON["resolution"]["width"] - 2 * configJSON["wordcloud"]["margin"]),
     height = int(configJSON["resolution"]["height"] - 2 * configJSON["wordcloud"]["margin"])
 ).generate_from_frequencies(resourceDict)
 
-wc.to_file('wc.png')
-
-wordcloud = Image.open("wc.png")
+cloud.to_file("wallpaper.png")
+wallpaper = Image.open("wallpaper.png")
 wallpaper = Image.new('RGB', (configJSON["resolution"]["width"], configJSON["resolution"]["height"]), configJSON["wordcloud"]["background"])
+
 wallpaper.paste(
-    wordcloud, 
-    (
+    cloud
+    """ (
         configJSON["wordcloud"]["margin"],
         configJSON["wordcloud"]["margin"]
-    )    
+    ) """
 )
 wallpaper.save("wallpaper.png")
