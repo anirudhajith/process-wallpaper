@@ -2,6 +2,7 @@ import re
 from PIL import Image
 from wordcloud import WordCloud
 import json
+import os
 
 commandList = []
 
@@ -41,7 +42,19 @@ resourceDict = {}
 for command, [cpu, mem] in commandDict.items():
     resourceDict[command] = (cpu ** 2 + mem ** 2) ** 0.5
 
+width, height = None, None
+try:
+    width,height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
+except:
+    pass
+
 configJSON = json.loads(open("config.json", "r").read())
+
+if height and width:
+    configJSON["resolution"]["width"] = int(width)
+    configJSON["resolution"]["height"] = int(height)
+    with open('config.json', 'w') as f:
+        json.dump(configJSON, f, indent=4)
 
 wc = WordCloud(
     background_color = configJSON["wordcloud"]["background"],
