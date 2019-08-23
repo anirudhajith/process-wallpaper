@@ -11,7 +11,11 @@ resourceDict = dict()
 
 for proc in psutil.process_iter(attrs=['name', 'cpu_percent', 'memory_percent']):
     try:
-        name = proc.name()
+        if os.name != 'nt':
+            name = proc.name()
+        else: 
+            executable = proc.name()
+            name, extension = os.path.splitext(executable)
         if name != "Python":
             relevancy = (proc.cpu_percent() ** 2 + proc.memory_percent() ** 2) ** 0.5
             if name in resourceDict:

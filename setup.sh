@@ -1,4 +1,8 @@
 #!/bin/bash
+if [[ "$OSTYPE" =~ ^msys ]]; then
+  ## Fixes the installer on Bash for Windows
+  alias python3='py -3'
+fi
 
 echo "Installing Python dependencies..."
 
@@ -7,19 +11,19 @@ wordcloud="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("wordclo
 matplotlib="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("matplotlib") else 0)')"
 psutil="$(python3 -c 'import pkgutil; print(1 if pkgutil.find_loader("psutil") else 0)')"
 
-if [ $pillow == 0 ]; then
+if [[ $pillow == 0 ]]; then
 echo "Installing Pillow..."
 pip3 install --user Pillow
 fi
-if [ $wordcloud == 0 ]; then
+if [[ $wordcloud == 0 ]]; then
 echo "Installing wordcloud..."
 pip3 install --user wordcloud
 fi
-if [ $matplotlib == 0 ]; then
+if [[ $matplotlib == 0 ]]; then
 echo "Installing matplotlib..."
 pip3 install --user matplotlib
 fi
-if [ $psutil == 0 ]; then
+if [[ $psutil == 0 ]]; then
 echo "Installing psutil..."
 pip3 install --user psutil
 fi
