@@ -11,8 +11,13 @@ resourceDict = dict()
 
 for proc in psutil.process_iter(attrs=['name', 'cpu_percent', 'memory_percent']):
     try:
-        relevancy = (proc.cpu_percent() ** 2 + proc.memory_percent() ** 2) ** 0.5
-        resourceDict[proc.name()] = relevancy
+        name = proc.name()
+        if name != "Python":
+            relevancy = (proc.cpu_percent() ** 2 + proc.memory_percent() ** 2) ** 0.5
+            if name in resourceDict:
+                resourceDict[name] = resourceDict[name] + relevancy
+            else:
+                resourceDict[name] = relevancy
     except:
         pass
 
@@ -48,12 +53,5 @@ cloud = WordCloud(
 cloud.to_file("wallpaper.png")
 wallpaper = Image.open("wallpaper.png")
 wallpaper = Image.new('RGB', (configJSON["resolution"]["width"], configJSON["resolution"]["height"]), configJSON["wordcloud"]["background"])
-
-wallpaper.paste(
-    cloud
-    """ (
-        configJSON["wordcloud"]["margin"],
-        configJSON["wordcloud"]["margin"]
-    ) """
-)
+wallpaper.paste(cloud, None)
 wallpaper.save("wallpaper.png")
