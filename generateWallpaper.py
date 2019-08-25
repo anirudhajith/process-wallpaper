@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import re
+import operator
 import psutil
 import json
 import os
@@ -51,7 +52,7 @@ def get_resources():
             else:
                 executable = proc.name()
                 name, extension = os.path.splitext(executable)
-            if name != "Python":
+            if name != "Python" or name != "System Idle Process" or name != "svchost":
                 relevancy = (proc.cpu_percent() ** 2 +
                              proc.memory_percent() ** 2) ** 0.5
                 if name in resourceDict:
@@ -71,11 +72,43 @@ def dump_screen_sizes(configJSON, screen_sizes):
         with open('config.json', 'w') as f:
             json.dump(configJSON, f, indent=4)
 
+def color_functions(dictionary = {}, mode = "default", color = "255,255,255"):
+    most_recurrent = max(dictionary.items(), key=operator.itemgetter(1))
+
+    def greyscale_by_frequency(word, font_size, position, orientation, random_state=None, **kwargs):
+        return "hsl(0, 0%%, %d%%)" % (360 * dictionary[word])
+    def singlecolor_by_frequency(word, font_size, position, orientation, random_state=None, **kwargs):
+        def scale_number_over (original, frequency, max):
+            decimal = dictionary[word] / most_recurrent[1]
+            return (int(original) / 3) + (int(original) * decimal / (2 / 3))
+
+        colors = color.split(',')
+        r = scale_number_over(int(colors[0]), dictionary[word], most_recurrent[1])
+        g = scale_number_over(
+            int(colors[1]), dictionary[word], most_recurrent[1])
+        b = scale_number_over(
+            int(colors[2]), dictionary[word], most_recurrent[1])
+        return "rgb(%d, %d, %d)" % (r, g, b)
+
+    def apply_color(word, font_size, position, orientation, random_state=None, **kwargs):
+        return "rgb(%s)" % (color)
+
+    functions = {
+        "greyscale": greyscale_by_frequency,
+        "colorscale": singlecolor_by_frequency,
+        "color": apply_color
+    }
+
+    return functions[mode]
+
 
 
 configJSON = json.loads(open("config.json", "r").read())
 margin = int(configJSON["wordcloud"]["margin"])
 background = configJSON["wordcloud"]["background"]
+mode = configJSON["wordcloud"]["mode"]
+color = configJSON["wordcloud"]["color"]
+repeating = configJSON["wordcloud"]["repeating"]
 
 screen_sizes = init_screen_sizes(configJSON)
 dump_screen_sizes(configJSON, screen_sizes)
@@ -87,7 +120,11 @@ height = screen_sizes[1]
 cloud = WordCloud(
     background_color=background,
     width=int(width - (2 * margin)),
-    height=int(height - (2 * margin))
+    height=int(height - (2 * margin)),
+    color_func=None if mode == "default" else color_functions(
+        resourceDict, mode, color
+    ),
+    repeat=repeating
 ).generate_from_frequencies(resourceDict)
 cloud.to_file("wallpaper.png")
 

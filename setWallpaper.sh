@@ -10,7 +10,7 @@ then
   feh --bg-fill $WALLPAPER_PATH
 elif command -v osascript
 then
-  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"$WALLPAPER_PATH\""
+  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file $WALLPAPER_PATH"
 else
   echo "ERROR: Unable to automatically set wallpaper on your system. Manually set your wallpaper to ${WALLPAPER_PATH}."
 fi
