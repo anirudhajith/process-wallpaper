@@ -6,7 +6,7 @@
     "wordcloud": {
         "background": "#101010",
         "margin": 50,
-        "mode": "color",
+        "mode": "default",
         "color": "0,255,0",
         "repeating": true
     }
