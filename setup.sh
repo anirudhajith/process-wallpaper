@@ -19,10 +19,6 @@ echo "Installing matplotlib..."
 pip3 install --user matplotlib
 fi
 
-echo "Creating wallpaper..."
 sh updateWallpaper.sh
-
-echo "Setting wallpaper..."
-sh setWallpaper.sh
 
 echo "Setup successfully completed"

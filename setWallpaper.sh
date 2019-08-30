@@ -1,6 +1,7 @@
 #!/bin/bash
 WALLPAPER_PATH="$(pwd)/wallpaper.png"
 
+echo "Setting wallpaper..."
 
 if command -v gsettings
 then
