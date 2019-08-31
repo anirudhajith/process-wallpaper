@@ -44,6 +44,8 @@ for command, [cpu, mem] in commandDict.items():
 width, height = None, None
 try:
     width, height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
+    width = int(width)
+    height = int(height)
 except:
     pass
 
