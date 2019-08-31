@@ -21,7 +21,7 @@ git clone https://github.com/anirudhajith/process-wallpaper.git
 * Set the resolution of your display in `config.json`
 * Install Python dependencies.
 ```
-pip install -r requirements.txt --user
+pip3 install -r requirements.txt --user
 ```
 
 ## Use
