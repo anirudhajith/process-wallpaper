@@ -11,12 +11,17 @@ Python and shell scripts which set your wallpaper to a wordcloud of the most res
 If neither `gsettings` not `feh` are supported by your platform, you can still set `wallpaper.png` as your wallpaper manually.
 
 ## Setup
-* Set the resolution of your display in `config.json`
-* Use the following commands
+
+* Clone this repo.
+
 ```
-cd /path/to/script/directory
-chmod +x setup.sh
-./setup.sh
+git clone https://github.com/anirudhajith/process-wallpaper.git
+```
+
+* Set the resolution of your display in `config.json`
+* Install Python dependencies.
+```
+pip install -r requirements.txt --user
 ```
 
 ## Use
