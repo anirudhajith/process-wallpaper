@@ -58,7 +58,8 @@ def validate_color(ctx, param, value):
 @click.option(
     '--resolution', '-r',
     help='The resolution (width, height) of the wallpaper to generate.',
-    type=(int, int)
+    nargs=2,
+    type=int,
 )
 @click.option(
     '--bgcolor', '-bg',
@@ -67,7 +68,8 @@ def validate_color(ctx, param, value):
 @click.option(
     '--margins', '-m',
     help='The margins (horizontal, vertical) around the outside of the text, in pixels.',
-    type=(int, int)
+    nargs=2,
+    type=int
 )
 @click.option(
     '--output', '-o',
