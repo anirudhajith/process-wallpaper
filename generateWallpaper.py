@@ -8,11 +8,11 @@ commandList = []
 
 with open("top.out", "r") as topFile:
     topOutput = topFile.read().split("\n")[7:]
-    
+
     for line in topOutput[:-1]:
         line = re.sub(r'\s+', ' ', line).strip()
         fields = line.split(" ")
-        
+
         try:
             if fields[11].count("/") > 0:
                 command = fields[11].split("/")[0]
@@ -26,7 +26,6 @@ with open("top.out", "r") as topFile:
                 commandList.append((command, cpu, mem))
         except:
             pass
-        
 
 commandDict = {}
 
@@ -44,33 +43,31 @@ for command, [cpu, mem] in commandDict.items():
 
 width, height = None, None
 try:
-    width,height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
+    width, height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
 except:
     pass
 
 configJSON = json.loads(open("config.json", "r").read())
 
-if height and width:
-    configJSON["resolution"]["width"] = int(width)
-    configJSON["resolution"]["height"] = int(height)
-    with open('config.json', 'w') as f:
-        json.dump(configJSON, f, indent=4)
+if not width or not height:
+    width = configJSON['resolution']['width']
+    height = configJSON['resolution']['height']
 
 wc = WordCloud(
-    background_color = configJSON["wordcloud"]["background"],
-    width = int(configJSON["resolution"]["width"] - 2 * configJSON["wordcloud"]["margin"]),
-    height = int(configJSON["resolution"]["height"] - 2 * configJSON["wordcloud"]["margin"])
+    background_color=configJSON["wordcloud"]["background"],
+    width=width - 2 * int(configJSON["wordcloud"]["margin"]),
+    height=height - 2 * int(configJSON["wordcloud"]["margin"])
 ).generate_from_frequencies(resourceDict)
 
 wc.to_file('wc.png')
 
 wordcloud = Image.open("wc.png")
-wallpaper = Image.new('RGB', (configJSON["resolution"]["width"], configJSON["resolution"]["height"]), configJSON["wordcloud"]["background"])
+wallpaper = Image.new('RGB', (width, height), configJSON["wordcloud"]["background"])
 wallpaper.paste(
-    wordcloud, 
+    wordcloud,
     (
         configJSON["wordcloud"]["margin"],
         configJSON["wordcloud"]["margin"]
-    )    
+    )
 )
 wallpaper.save("wallpaper.png")
