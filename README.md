@@ -16,12 +16,16 @@ If neither `gsettings` not `feh` are supported by your platform, you can still s
 
 ```
 git clone https://github.com/anirudhajith/process-wallpaper.git
+cd process-wallpaper
 ```
-
 * Set the resolution of your display in `config.json`
 * Install Python dependencies.
 ```
 pip3 install -r requirements.txt --user
+```
+* Run `setup.sh`
+```
+./setup.sh
 ```
 
 ## Use
