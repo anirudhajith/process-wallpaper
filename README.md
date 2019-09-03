@@ -1,19 +1,30 @@
 # process-wallpaper
 
-Python and shell scripts which sets the wallpaper to a wordcloud of the most resource-intensive processes currently running.
+Python and shell scripts which set your wallpaper to a wordcloud of the most resource-intensive processes presently running.
 
 ![](https://raw.githubusercontent.com/anirudhajith/process-wallpaper/master/screenshot.png)
 
 ## Depenendencies
 * `python3`
-* A GNOME desktop environment is required for `setup.sh` to change the wallpaper automatically. Alternatively, you may set `wallpaper.png` as your wallpaper manually.
+* `gsettings` (comes preinstalled with GNOME) or `feh` (supported by many Linux distributions). 
+
+If neither `gsettings` not `feh` are supported by your platform, you can still set `wallpaper.png` as your wallpaper manually.
 
 ## Setup
-* Set the resolution of your display in `config.json`
-* Use the following commands
+
+* Clone this repo.
+
 ```
-cd /path/to/script/directory
-chmod +x setup.sh
+git clone https://github.com/anirudhajith/process-wallpaper.git
+cd process-wallpaper
+```
+* Set the resolution of your display in `config.json`
+* Install Python dependencies.
+```
+pip3 install -r requirements.txt --user
+```
+* Run `setup.sh`
+```
 ./setup.sh
 ```
 
