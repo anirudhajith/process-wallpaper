@@ -29,7 +29,12 @@ pip3 install -r requirements.txt --user
 ```
 
 ## Use
-The wallpaper is updated every time `updateWallpaper.sh` is run. To trigger the update every minute, append the following line to `crontab -e`:
+The wallpaper is updated every time `updateWallpaper.sh` is run. To trigger the update every minute, append the following line to `crontab -e`, remember to replace `/path/to/script/directory` with the directory of your scripts.
+### KDE
+```
+* * * * * export "binpath=/path/to/script/directory"; "DISPLAY=:$(ls -1 /tmp/.X11-unix/X* | grep -oE "[0-9]*$" | sort -n | head -1)"; export "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus"; (pushd "${binpath}" && ./updateWallpaper.sh && ./setWallpaper.sh; popd) 2>&1 | logger -t "process-wallpaper"
+```
+### Most other
 ```
 * * * * * cd /path/to/script/directory && ./updateWallpaper.sh > /tmp/wallpaper.log 2>&1
 
