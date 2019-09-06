@@ -6,9 +6,9 @@ Python and shell scripts which set your wallpaper to a wordcloud of the most res
 
 ## Depenendencies
 * `python3`
-* `gsettings` (comes preinstalled with GNOME) or `feh` (supported by many Linux distributions). 
+* `gsettings` (comes preinstalled with GNOME), `plasmashell` (comes with KDE) or `feh` (supported by many Linux distributions). 
 
-If neither `gsettings` not `feh` are supported by your platform, you can still set `wallpaper.png` as your wallpaper manually.
+If `gsettings`, `plasmashell` and `feh` are all not supported by your platform, you can still set `wallpaper.png` as your wallpaper manually.
 
 ## Setup
 

@@ -6,7 +6,7 @@ echo "Setting wallpaper..."
 if pgrep plasmashell >/dev/null; then
   qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = 'org.kde.image';d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');d.writeConfig('Image', 'file://$(dirname ${WALLPAPER_PATH})/wc.png')}"
   qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = 'org.kde.image';d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');d.writeConfig('Image', 'file://${WALLPAPER_PATH}')}"
-  PGREP_WORKED=true
+  PLASMASHELL_WORKED=true
 fi
 
 if command -v gsettings > /tmp/wallpaper.log
@@ -21,7 +21,7 @@ then
   FEH_WORKED=true
 fi
 
-if [ [ $PGREP_WORKED ] || [ $GSETTINGS_WORKED ] || [ $FEH_WORKED ] ]
+if [ [ $PLASMASHELL_WORKED ] || [ $GSETTINGS_WORKED ] || [ $FEH_WORKED ] ]
 then
   echo "Wallpaper set successfully"
 else
