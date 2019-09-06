@@ -1,5 +1,6 @@
 import json
 import os
+import platform
 import time
 from collections import defaultdict
 
@@ -20,6 +21,9 @@ for proc in psutil.process_iter():
     name = details['name'].split("/")[0]
     all_processes[name]['cpu_percent'] += details['cpu_percent'] or 0
     all_processes[name]['memory_percent'] += details['memory_percent'] or 0
+
+if platform.system() == 'Windows':
+    del all_processes['System Idle Process']
 
 # generate a single real number metric for resource-intensity
 frequencies = {}
