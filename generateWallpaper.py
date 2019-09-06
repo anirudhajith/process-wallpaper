@@ -1,4 +1,7 @@
 import re
+import time
+from collections import defaultdict
+
 from PIL import Image
 from wordcloud import WordCloud
 import json
@@ -6,7 +9,11 @@ import os
 import psutil
 
 # get all process names with cpu and memory usage
-all_processes = {}
+all_processes = defaultdict(lambda: {'cpu_percent': 0, 'memory_percent': 0})
+
+# cpu_percent only reports the cpu since the last time it was run, and always returns 0% usage on first run
+[proc.as_dict() for proc in psutil.process_iter()]
+time.sleep(0.2)  # wait so that we're not measuring cpu/memory usage of the time between process_iter calls.
 
 for proc in psutil.process_iter():
     details = proc.as_dict(attrs=['name', 'cpu_percent', 'memory_percent'])
