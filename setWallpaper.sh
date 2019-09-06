@@ -2,7 +2,10 @@
 WALLPAPER_PATH="$(pwd)/wallpaper.png"
 
 
-if command -v gsettings
+if pgrep plasmashell >/dev/null; then
+  qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = 'org.kde.image';d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');d.writeConfig('Image', 'file://$(dirname ${WALLPAPER_PATH})/wc.png')}"
+  qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = 'org.kde.image';d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');d.writeConfig('Image', 'file://${WALLPAPER_PATH}')}"
+elif command -v gsettings
 then
   gsettings set org.gnome.desktop.background picture-uri "file://$WALLPAPER_PATH"
 elif command -v feh
