@@ -3,44 +3,38 @@ from PIL import Image
 from wordcloud import WordCloud
 import json
 import os
+import psutil
 
-commandList = []
+# get all process names with cpu and memory usage
+all_processes = {}
 
-with open("top.out", "r") as topFile:
-    topOutput = topFile.read().split("\n")[7:]
-
-    for line in topOutput[:-1]:
-        line = re.sub(r'\s+', ' ', line).strip()
-        fields = line.split(" ")
-
-        try:
-            if fields[11].count("/") > 0:
-                command = fields[11].split("/")[0]
-            else:
-                command = fields[11]
-
-            cpu = float(fields[8].replace(",", "."))
-            mem = float(fields[9].replace(",", "."))
-
-            if command != "top":
-                commandList.append((command, cpu, mem))
-        except:
-            pass
-
-commandDict = {}
-
-for command, cpu, mem in commandList:
-    if command in commandDict:
-        commandDict[command][0] += cpu
-        commandDict[command][1] += mem
+for proc in psutil.process_iter():
+    details = proc.as_dict(attrs=['name', 'cpu_percent', 'memory_percent'])
+    
+    if details['name'].count("/") > 0:
+        details['name'] = details['name'].split("/")[0]
+    
+    if details['cpu_percent'] == None:
+        details['cpu_percent'] = 0.0
+    
+    if details['memory_percent'] == None:
+        details['memory_percent'] = 0.0
+    
+    if details['name'] not in all_processes:
+        all_processes[details['name']] = details
     else:
-        commandDict[command] = [cpu + 1, mem + 1]
+        all_processes[details['name']]['memory_percent'] += details['memory_percent']
+        all_processes[details['name']]['cpu_percent'] += details['cpu_percent']
 
+
+# generate a single real number metric for resource-intensity
 resourceDict = {}
 
-for command, [cpu, mem] in commandDict.items():
-    resourceDict[command] = (cpu ** 2 + mem ** 2) ** 0.5
+for process_name in all_processes.keys():
+    resourceDict[process_name] = (all_processes[process_name]['cpu_percent'] ** 2 + all_processes[process_name]['memory_percent'] ** 2 + 1) ** 0.5
 
+
+# create wallpaper
 width, height = None, None
 try:
     width, height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
