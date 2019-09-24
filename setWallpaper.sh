@@ -11,7 +11,12 @@ fi
 
 if command -v gsettings > /tmp/wallpaper.log
 then
-  gsettings set org.gnome.desktop.background picture-uri "file://$WALLPAPER_PATH"
+  if [ $DESKTOP_SESSION == 'mate' ]
+  then
+    gsettings set org.mate.background picture-filename "$WALLPAPER_PATH"
+  else
+    gsettings set org.gnome.desktop.background picture-uri "file://$WALLPAPER_PATH"
+  fi
   GSETTINGS_WORKED=true
 fi
 
