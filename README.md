@@ -1,5 +1,7 @@
 # process-wallpaper
 
+NOW WORK ALSO ON UBUNTU MATE
+
 Python and shell scripts which set your wallpaper to a wordcloud of the most resource-intensive processes presently running.
 
 ![](https://raw.githubusercontent.com/anirudhajith/process-wallpaper/master/screenshot.png)
