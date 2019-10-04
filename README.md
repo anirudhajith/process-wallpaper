@@ -1,10 +1,14 @@
 # process-wallpaper
 
-NOW WORK ALSO ON UBUNTU MATE
+The difference between the original and this fork is that it now also works on ubuntu mate and every time a background is regenerated a random color is chosen from a chosen list.
+The list can be changed without difficulty to add your favorite color.
 
 Python and shell scripts which set your wallpaper to a wordcloud of the most resource-intensive processes presently running.
 
-![](https://raw.githubusercontent.com/anirudhajith/process-wallpaper/master/screenshot.png)
+![](./screenshot/GREEN.png)
+![](./screenshot/FUCHSIA.png)
+![](./screenshot/BLUE.png)
+![](./screenshot/DARK PINK.png)
 
 ## Depenendencies
 * `python3`
