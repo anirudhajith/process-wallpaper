@@ -8,7 +8,7 @@ Python and shell scripts which set your wallpaper to a wordcloud of the most res
 ![](./screenshot/GREEN.png)
 ![](./screenshot/FUCHSIA.png)
 ![](./screenshot/BLUE.png)
-![](./screenshot/DARK PINK.png)
+![](./screenshot/PINK.png)
 
 ## Depenendencies
 * `python3`
