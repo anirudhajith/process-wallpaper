@@ -1,4 +1,4 @@
-# process-wallpaper
+# process-wallpaper-multicolor
 
 The difference between the original and this fork is that it now also works on ubuntu mate and every time a background is regenerated a random color is chosen from a chosen list.
 The list can be changed without difficulty to add your favorite color.
