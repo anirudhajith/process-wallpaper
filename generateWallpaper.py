@@ -5,6 +5,7 @@ from PIL import Image
 from wordcloud import WordCloud
 import os
 import json
+import os
 
 configJSON = json.loads(open("config.json", "r").read())
 
@@ -21,11 +22,11 @@ commandList = []
 
 with open("top.out", "r") as topFile:
     topOutput = topFile.read().split("\n")[7:]
-    
+
     for line in topOutput[:-1]:
         line = re.sub(r'\s+', ' ', line).strip()
         fields = line.split(" ")
-        
+
         try:
             # added if, elif statement for KDE since some system processes are in brackets
             # and changed order how the commands are processed by these statements
@@ -45,6 +46,7 @@ with open("top.out", "r") as topFile:
                 commandList.append((command, cpu, mem))
         except:
             pass       
+           
 
 commandDict = {}
 
@@ -60,6 +62,9 @@ resourceDict = {}
 for command, [cpu, mem] in commandDict.items():
     resourceDict[command] = (cpu ** 2 + mem ** 2) ** 0.5
 
+if not width or not height:
+    width = configJSON['resolution']['width']
+    height = configJSON['resolution']['height']
 
 wc = WordCloud(
     background_color = configJSON["wordcloud"]["background"],
@@ -67,19 +72,20 @@ wc = WordCloud(
     height = int(configJSON["resolution"]["height"] - 2 * configJSON["wordcloud"]["margin"]),
     # added mask switch for using an image for masking the wordcloud
     mask = mask 
+
 ).generate_from_frequencies(resourceDict)
 
 # using different colormap with recolor function //since I like it more =)
 wc.recolor(colormap="summer").to_file('wc.png')
 
 wordcloud = Image.open("wc.png")
-wallpaper = Image.new('RGB', (configJSON["resolution"]["width"], configJSON["resolution"]["height"]), configJSON["wordcloud"]["background"])
+wallpaper = Image.new('RGB', (width, height), configJSON["wordcloud"]["background"])
 wallpaper.paste(
-    wordcloud, 
+    wordcloud,
     (
         configJSON["wordcloud"]["margin"],
         configJSON["wordcloud"]["margin"]
-    )    
+    )
 )
 # adding a second wallpaper for Plasma slideshow usage. See updateWalpaper.sh
 wallpaper.save("wallpaper_new.png")
