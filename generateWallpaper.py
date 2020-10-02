@@ -139,6 +139,13 @@ colors = [
     "#00a9a5",#Light Sea Green
     "#4e8098",#Teal Blue
     "#90c2e7"#Pale Cerulean
+  ],
+  [
+    "#780116",#UP Maroon
+    "#f7b538",#Maximum Yellow Red
+    "#db7c26",#Ochre
+    "#d8572a",#Flame
+    "#c32f27"#International Orange Golden Gate Bridge
   ]
 ]
 colorMap = LinearSegmentedColormap.from_list("mycmap", colors[random.randint(1,len(colors))])
