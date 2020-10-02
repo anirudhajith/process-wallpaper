@@ -120,6 +120,13 @@ colors = [
     '#f25773',#FIERY ROSE
   ],
   [
+    "#fb8b24",#Dark Orange
+    "#d90368",#Dogwood Rose
+    "#820263",#Byzantium
+    "#291720",#Dark Purple
+    "#04a777"#Green Munsell
+  ],
+  [
     "#969a97",#Spanish Gray
     "#d6d1cd",#Timberwolf
     "#e5ece9",#Mint Cream
