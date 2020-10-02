@@ -132,6 +132,13 @@ colors = [
     "#e5ece9",#Mint Cream
     "#c60f7b",#Magenta Dye
     "#f90093",#Magenta Process
+  ],
+  [
+    "#092327",#Dark Jungle Green
+    "#0b5351",#Deep Jungle Green
+    "#00a9a5",#Light Sea Green
+    "#4e8098",#Teal Blue
+    "#90c2e7"#Pale Cerulean
   ]
 ]
 colorMap = LinearSegmentedColormap.from_list("mycmap", colors[random.randint(1,len(colors))])
