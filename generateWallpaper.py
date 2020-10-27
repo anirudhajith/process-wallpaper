@@ -141,6 +141,13 @@ colors = [
     "#90c2e7"#Pale Cerulean
   ],
   [
+    "#053d22",#poolors.com
+    "#b38cc8",
+    "#6c81d8",
+    "#3a3b65",
+    "#632605"
+  ],
+  [
     "#780116",#UP Maroon
     "#f7b538",#Maximum Yellow Red
     "#db7c26",#Ochre
