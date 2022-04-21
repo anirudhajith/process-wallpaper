@@ -41,35 +41,33 @@ resourceDict = {}
 for command, [cpu, mem] in commandDict.items():
     resourceDict[command] = (cpu ** 2 + mem ** 2) ** 0.5
 
+configJSON = json.loads(open("config.json", "r").read())
+
 width, height = None, None
 try:
-    width, height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
-    width = int(width)
-    height = int(height)
+    width = configJSON['resolution']['width']
+    height = configJSON['resolution']['height']
 except:
     pass
 
-configJSON = json.loads(open("config.json", "r").read())
-
+# if width or height were not found in the config try to get it from the system
+# WARNING: this does not work properly for multi monitor setups
 if not width or not height:
-    width = configJSON['resolution']['width']
-    height = configJSON['resolution']['height']
+    try:
+        width, height = ((os.popen("xrandr | grep '*'").read()).split()[0]).split("x")
+        width = int(width)
+        height = int(height)
+    except:
+        pass
 
+# for full API see
+# https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html
 wc = WordCloud(
     background_color=configJSON["wordcloud"]["background"],
     width=width - 2 * int(configJSON["wordcloud"]["margin"]),
-    height=height - 2 * int(configJSON["wordcloud"]["margin"])
+    height=height - 2 * int(configJSON["wordcloud"]["margin"]),
+    margin=configJSON["wordcloud"]["margin"]
 ).generate_from_frequencies(resourceDict)
 
-wc.to_file('wc.png')
+wc.to_file('wallpaper.png')
 
-wordcloud = Image.open("wc.png")
-wallpaper = Image.new('RGB', (width, height), configJSON["wordcloud"]["background"])
-wallpaper.paste(
-    wordcloud,
-    (
-        configJSON["wordcloud"]["margin"],
-        configJSON["wordcloud"]["margin"]
-    )
-)
-wallpaper.save("wallpaper.png")
